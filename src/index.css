@@ -5,51 +5,11 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #0b0e14;
-    color: #e6ebf4;
-  }
-}
-
-@layer utilities {
-  .grid-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-image:
-      linear-gradient(rgba(42, 51, 70, 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(42, 51, 70, 0.3) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-color: #f8fafc;
+    color: #0f172a;
   }
 
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    pointer-events: none;
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, #a78bfa, #fb923c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .card-glow {
-    box-shadow: 0 0 0 1px rgba(42, 51, 70, 0.5);
-  }
-
-  .card-glow:hover {
-    box-shadow: 0 0 20px rgba(167, 139, 250, 0.15), 0 0 0 1px rgba(167, 139, 250, 0.3);
-  }
-
-  .t-cursor {
-    animation: blink 1s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+  body {
+    margin: 0;
   }
 }
