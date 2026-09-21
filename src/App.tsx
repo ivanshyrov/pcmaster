@@ -13,6 +13,7 @@ import {
   Activity,
   Truck,
   Wrench,
+  CheckCircle2,
 } from 'lucide-react';
 
 const PHONE = '+7 908 863-31-66';
@@ -51,7 +52,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="py-14 md:py-20">
+    <section className="py-14 md:py-20 bg-white">
       <div className="max-w-4xl mx-auto px-5">
         <p className="text-sm font-semibold text-blue-700 mb-3">Нижний Новгород и область</p>
         <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
@@ -83,7 +84,7 @@ function Hero() {
 
 function Tasks() {
   return (
-    <section className="py-12" id="services">
+    <section className="py-12 bg-slate-50" id="services">
       <div className="max-w-4xl mx-auto px-5">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Что делаю</h2>
         <p className="text-slate-500 mb-6">
@@ -127,6 +128,7 @@ function Zones() {
             </span>
             <h3 className="font-semibold text-slate-900 mt-3 mb-1">Нижний Новгород</h3>
             <p className="text-sm text-slate-500">Выезд по городу</p>
+            <p className="mt-1 text-base font-bold text-slate-900">500 ₽</p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
             <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
@@ -146,11 +148,11 @@ function How() {
   const steps = [
     { num: '01', icon: <Phone size={20} />, title: 'Звонок', desc: 'Обсуждаем задачу' },
     { num: '02', icon: <Truck size={20} />, title: 'Выезд', desc: 'По договорённости' },
-    { num: '03', icon: <Wrench size={20} />, title: 'Ремонт', desc: 'При вас, до результата' },
+    { num: '03', icon: <Wrench size={20} />, title: 'Ремонт', desc: '' },
   ];
 
   return (
-    <section className="py-12" id="how">
+    <section className="py-12 bg-slate-50" id="how">
       <div className="max-w-4xl mx-auto px-5">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Как всё пройдёт</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -166,7 +168,7 @@ function How() {
                 <span className="text-2xl font-bold text-slate-300">{step.num}</span>
               </div>
               <h3 className="font-semibold text-slate-900 mb-1">{step.title}</h3>
-              <p className="text-sm text-slate-500">{step.desc}</p>
+              {step.desc && <p className="text-sm text-slate-500">{step.desc}</p>}
             </div>
           ))}
         </div>
@@ -181,6 +183,7 @@ function FormSection() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [statusText, setStatusText] = useState('');
+  const [sentName, setSentName] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -210,8 +213,8 @@ function FormSection() {
       });
 
       if (res.ok) {
+        setSentName(name.trim());
         setStatus('success');
-        setStatusText(`${name}, заявка отправлена! Сергей перезвонит в течение часа.`);
         setName('');
         setPhone('');
         setMessage('');
@@ -221,8 +224,8 @@ function FormSection() {
     } catch {
       const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(`Заявка от ${name}`)}&body=${encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}`)}`;
       window.open(mailtoLink, '_blank');
+      setSentName(name.trim());
       setStatus('success');
-      setStatusText(`${name}, заявка принята! Сергей перезвонит в течение часа.`);
       setName('');
       setPhone('');
       setMessage('');
@@ -242,50 +245,71 @@ function FormSection() {
           </a>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Имя
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Иван"
-              className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-          </label>
-          <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Телефон
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+7 (___) ___-__-__"
-              className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-          </label>
-          <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Что случилось?
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={2}
-              placeholder="Не включается, тормозит..."
-              className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={status === 'loading'}
-            className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {status === 'loading' ? 'Отправка...' : 'Отправить заявку'}
-          </button>
-          {statusText && (
-            <p className={`mt-3.5 text-sm font-semibold ${status === 'error' ? 'text-red-600' : 'text-green-600'}`}>
-              {statusText}
+        {status === 'success' ? (
+          <div className="bg-slate-50 border border-green-200 rounded-xl p-8 text-center">
+            <span className="inline-flex items-center justify-center w-14 h-14 bg-green-50 border border-green-200 rounded-full mb-4">
+              <CheckCircle2 size={28} className="text-green-600" />
+            </span>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Обращение отправлено</h3>
+            <p className="text-slate-600 mb-6">
+              {sentName ? `${sentName}, спасибо! ` : ''}Сергей перезвонит в течение часа.
             </p>
-          )}
-        </form>
+            <button
+              type="button"
+              onClick={() => {
+                setStatus('idle');
+                setStatusText('');
+                setSentName('');
+              }}
+              className="px-5 py-2.5 rounded-lg font-semibold text-blue-700 border border-blue-200 bg-blue-50 hover:bg-blue-100 transition-colors"
+            >
+              Отправить ещё заявку
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+            <label className="block text-sm font-semibold text-slate-700 mb-3">
+              Имя
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Иван"
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+              />
+            </label>
+            <label className="block text-sm font-semibold text-slate-700 mb-3">
+              Телефон
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+7 (___) ___-__-__"
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+              />
+            </label>
+            <label className="block text-sm font-semibold text-slate-700 mb-3">
+              Что случилось?
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={2}
+                placeholder="Не включается, тормозит..."
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={status === 'loading'}
+              className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {status === 'loading' ? 'Отправка...' : 'Отправить заявку'}
+            </button>
+            {status === 'error' && statusText && (
+              <p className="mt-3.5 text-sm font-semibold text-red-600">{statusText}</p>
+            )}
+          </form>
+        )}
       </div>
     </section>
   );
