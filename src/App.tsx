@@ -20,6 +20,13 @@ const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
 const EMAIL = 'petya.down@mail.ru';
 
+function isValidPhone(value: string): boolean {
+  // Оставляем только цифры
+  const digits = value.replace(/\D/g, '');
+  // Российский номер: 11 цифр, начинается с 7 или 8
+  return digits.length === 11 && /^[78]/.test(digits);
+}
+
 type Task = {
   icon: ReactNode;
   title: string;
@@ -195,6 +202,12 @@ function FormSection() {
       return;
     }
 
+    if (!isValidPhone(phone)) {
+      setStatus('error');
+      setStatusText('Введите корректный номер телефона, например +7 (900) 123-45-67.');
+      return;
+    }
+
     if (!consent) {
       setStatus('error');
       setStatusText('Необходимо согласие на обработку персональных данных.');
@@ -293,6 +306,7 @@ function FormSection() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+7 (___) ___-__-__"
+                inputMode="tel"
                 className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
               />
             </label>

@@ -8,6 +8,11 @@ function encodeHeader(value) {
   return '=?UTF-8?B?' + Buffer.from(value, 'utf8').toString('base64') + '?=';
 }
 
+function isValidPhone(value) {
+  const digits = String(value || '').replace(/\D/g, '');
+  return digits.length === 11 && /^[78]/.test(digits);
+}
+
 function readResponse(socket) {
   return new Promise((resolve, reject) => {
     let buffer = '';
@@ -56,6 +61,9 @@ export default async function handler(req, res) {
   const { name, phone, message, consent } = req.body || {};
   if (!name || !phone) {
     return res.status(400).json({ ok: false, error: 'Укажите имя и телефон' });
+  }
+  if (!isValidPhone(phone)) {
+    return res.status(400).json({ ok: false, error: 'Некорректный номер телефона' });
   }
   if (consent !== true) {
     return res.status(400).json({ ok: false, error: 'Необходимо согласие на обработку персональных данных' });
