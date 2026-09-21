@@ -18,7 +18,7 @@ import {
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
-const EMAIL = 'shirov0606@mail.ru';
+const EMAIL = 'petya.down@mail.ru';
 
 type Task = {
   icon: ReactNode;
@@ -198,29 +198,27 @@ function FormSection() {
     setStatusText('');
 
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+      const res = await fetch('/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: name.trim(),
           phone: phone.trim(),
           message: message.trim() || 'Не указано',
-          _subject: `Новая заявка от ${name.trim()}`,
         }),
       });
 
-      if (res.ok) {
-        setSentName(name.trim());
-        setStatus('success');
-        setName('');
-        setPhone('');
-        setMessage('');
-      } else {
+      if (!res.ok) {
         throw new Error('Ошибка отправки');
       }
+
+      setSentName(name.trim());
+      setStatus('success');
+      setName('');
+      setPhone('');
+      setMessage('');
     } catch {
       const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(`Заявка от ${name}`)}&body=${encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}`)}`;
       window.open(mailtoLink, '_blank');
