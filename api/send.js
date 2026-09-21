@@ -53,9 +53,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  const { name, phone, message } = req.body || {};
+  const { name, phone, message, consent } = req.body || {};
   if (!name || !phone) {
     return res.status(400).json({ ok: false, error: 'Укажите имя и телефон' });
+  }
+  if (consent !== true) {
+    return res.status(400).json({ ok: false, error: 'Необходимо согласие на обработку персональных данных' });
   }
 
   const user = process.env.MAIL_USER;
@@ -67,7 +70,14 @@ export default async function handler(req, res) {
   }
 
   const subject = `Новая заявка от ${name}`;
-  const text = `Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}`;
+  const text = [
+    `Имя: ${name}`,
+    `Телефон: ${phone}`,
+    `Проблема: ${message || 'Не указана'}`,
+    '',
+    'Согласие на обработку персональных данных: ПОЛУЧЕНО',
+    'Дата отправки: ' + new Date().toLocaleString('ru-RU'),
+  ].join('\n');
 
   let socket;
   try {

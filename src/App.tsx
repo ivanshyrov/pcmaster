@@ -181,6 +181,7 @@ function FormSection() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [statusText, setStatusText] = useState('');
   const [sentName, setSentName] = useState('');
@@ -191,6 +192,12 @@ function FormSection() {
     if (!name.trim() || !phone.trim()) {
       setStatus('error');
       setStatusText('Укажите имя и телефон.');
+      return;
+    }
+
+    if (!consent) {
+      setStatus('error');
+      setStatusText('Необходимо согласие на обработку персональных данных.');
       return;
     }
 
@@ -207,6 +214,7 @@ function FormSection() {
           name: name.trim(),
           phone: phone.trim(),
           message: message.trim() || 'Не указано',
+          consent: true,
         }),
       });
 
@@ -219,14 +227,16 @@ function FormSection() {
       setName('');
       setPhone('');
       setMessage('');
+      setConsent(false);
     } catch {
-      const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(`Заявка от ${name}`)}&body=${encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}`)}`;
+      const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(`Заявка от ${name}`)}&body=${encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}\n\nСогласие на обработку персональных данных: получено`)}`;
       window.open(mailtoLink, '_blank');
       setSentName(name.trim());
       setStatus('success');
       setName('');
       setPhone('');
       setMessage('');
+      setConsent(false);
     }
   };
 
@@ -296,6 +306,20 @@ function FormSection() {
                 className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
               />
             </label>
+            <label className="flex items-start gap-2.5 text-xs text-slate-600 mb-4 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-blue-600"
+              />
+              <span>
+                Я согласен на обработку персональных данных в соответствии с{' '}
+                <a href="/privacy.html" target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">
+                  политикой конфиденциальности
+                </a>
+              </span>
+            </label>
             <button
               type="submit"
               disabled={status === 'loading'}
@@ -303,6 +327,9 @@ function FormSection() {
             >
               {status === 'loading' ? 'Отправка...' : 'Отправить заявку'}
             </button>
+            <p className="mt-3 text-xs text-slate-500 text-center">
+              Нажимая кнопку, вы даёте согласие на обработку персональных данных
+            </p>
             {status === 'error' && statusText && (
               <p className="mt-3.5 text-sm font-semibold text-red-600">{statusText}</p>
             )}
