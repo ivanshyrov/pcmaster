@@ -24,15 +24,53 @@ type Task = {
   icon: ReactNode;
   title: string;
   desc: string;
+  iconClass: string;
+  iconBg: string;
 };
 
 const tasks: Task[] = [
-  { icon: <Monitor size={20} />, title: 'Windows и программы', desc: 'Установка, переустановка, настройка' },
-  { icon: <Bug size={20} />, title: 'Вирусы и реклама', desc: 'Лечение, удаление' },
-  { icon: <Wind size={20} />, title: 'Чистка от пыли', desc: 'Системный блок, ноутбук, термопаста' },
-  { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под ключ, замена комплектующих' },
-  { icon: <Wifi size={20} />, title: 'Интернет и Wi-Fi', desc: 'Настройка роутера, сети' },
-  { icon: <Database size={20} />, title: 'Восстановление данных', desc: 'HDD, SSD, флешки' },
+  {
+    icon: <Monitor size={20} />,
+    title: 'Windows и программы',
+    desc: 'Установка, переустановка, настройка',
+    iconClass: 'text-blue-600',
+    iconBg: 'bg-blue-50 border-blue-100',
+  },
+  {
+    icon: <Bug size={20} />,
+    title: 'Вирусы и реклама',
+    desc: 'Лечение, удаление',
+    iconClass: 'text-rose-600',
+    iconBg: 'bg-rose-50 border-rose-100',
+  },
+  {
+    icon: <Wind size={20} />,
+    title: 'Чистка от пыли',
+    desc: 'Системный блок, ноутбук, термопаста',
+    iconClass: 'text-emerald-600',
+    iconBg: 'bg-emerald-50 border-emerald-100',
+  },
+  {
+    icon: <Cpu size={20} />,
+    title: 'Сборка и апгрейд ПК',
+    desc: 'Под ключ, замена комплектующих',
+    iconClass: 'text-violet-600',
+    iconBg: 'bg-violet-50 border-violet-100',
+  },
+  {
+    icon: <Wifi size={20} />,
+    title: 'Интернет и Wi-Fi',
+    desc: 'Настройка роутера, сети',
+    iconClass: 'text-sky-600',
+    iconBg: 'bg-sky-50 border-sky-100',
+  },
+  {
+    icon: <Database size={20} />,
+    title: 'Восстановление данных',
+    desc: 'HDD, SSD, флешки',
+    iconClass: 'text-amber-600',
+    iconBg: 'bg-amber-50 border-amber-100',
+  },
 ];
 
 function Header() {
@@ -52,9 +90,12 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="py-14 md:py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-5">
-        <p className="text-sm font-semibold text-blue-700 mb-3">Нижний Новгород и область</p>
+    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div className="max-w-4xl mx-auto px-5 py-14 md:py-20">
+        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 bg-blue-50 border border-blue-100 rounded-full px-3 py-1 mb-4">
+          <MapPin size={14} />
+          Нижний Новгород и область
+        </span>
         <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
           Ремонт компьютеров и ноутбуков
         </h1>
@@ -65,13 +106,13 @@ function Hero() {
         <div className="flex gap-4 flex-wrap">
           <a
             href="#form"
-            className="inline-block px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+            className="inline-block px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20"
           >
             Оставить заявку
           </a>
           <a
             href={PHONE_LINK}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-slate-700 no-underline border border-slate-300 hover:border-blue-600 hover:text-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-slate-700 no-underline border border-slate-300 bg-white hover:border-blue-600 hover:text-blue-700 transition-colors"
           >
             <Phone size={18} />
             {PHONE}
@@ -86,18 +127,25 @@ function Tasks() {
   return (
     <section className="py-12 bg-slate-50" id="services">
       <div className="max-w-4xl mx-auto px-5">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Что делаю</h2>
-        <p className="text-slate-500 mb-6">
-          Точную стоимость назову после уточнения деталей — перезвоню и согласуем цену.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex items-start gap-3 mb-2">
+          <span className="w-1 h-8 bg-blue-600 rounded-full mt-1" />
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">Что делаю</h2>
+            <p className="text-slate-500 mt-1">
+              Точную стоимость назову после уточнения деталей — перезвоню и согласуем цену.
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {tasks.map((task) => (
             <div
               key={task.title}
               className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
             >
-              <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-50 border border-blue-100 rounded-lg mb-3">
-                <span className="text-blue-700">{task.icon}</span>
+              <span
+                className={`inline-flex items-center justify-center w-10 h-10 ${task.iconBg} border rounded-lg mb-3`}
+              >
+                <span className={task.iconClass}>{task.icon}</span>
               </span>
               <h3 className="font-semibold text-slate-900 mb-1">{task.title}</h3>
               <p className="text-sm text-slate-500">{task.desc}</p>
@@ -110,33 +158,61 @@ function Tasks() {
 }
 
 function Zones() {
+  const zones = [
+    {
+      icon: <MapPin size={24} />,
+      title: 'Кстовский район',
+      desc: 'Выезжаю по району',
+      iconClass: 'text-emerald-600',
+      iconBg: 'bg-emerald-50 border-emerald-100',
+      cardBg: 'bg-emerald-50/60',
+    },
+    {
+      icon: <Building2 size={24} />,
+      title: 'Нижний Новгород',
+      desc: 'Выезд по городу',
+      price: '500 ₽',
+      iconClass: 'text-blue-600',
+      iconBg: 'bg-blue-50 border-blue-100',
+      cardBg: 'bg-blue-50/60',
+    },
+    {
+      icon: <Activity size={24} />,
+      title: 'Диагностика',
+      desc: 'Осмотр и диагностика при выезде',
+      iconClass: 'text-violet-600',
+      iconBg: 'bg-violet-50 border-violet-100',
+      cardBg: 'bg-violet-50/60',
+    },
+  ];
+
   return (
     <section className="py-12 bg-white border-y border-slate-200" id="zones">
       <div className="max-w-4xl mx-auto px-5">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Выезд</h2>
+        <div className="flex items-start gap-3 mb-6">
+          <span className="w-1 h-8 bg-blue-600 rounded-full mt-1" />
+          <h2 className="text-2xl font-bold text-slate-900">Выезд</h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
-            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
-              <MapPin size={24} className="text-blue-700" />
-            </span>
-            <h3 className="font-semibold text-slate-900 mt-3 mb-1">Кстовский район</h3>
-            <p className="text-sm text-slate-500">Выезжаю по району</p>
-          </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
-            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
-              <Building2 size={24} className="text-blue-700" />
-            </span>
-            <h3 className="font-semibold text-slate-900 mt-3 mb-1">Нижний Новгород</h3>
-            <p className="text-sm text-slate-500">Выезд по городу</p>
-            <p className="mt-1 text-base font-bold text-slate-900">500 ₽</p>
-          </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
-            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
-              <Activity size={24} className="text-blue-700" />
-            </span>
-            <h3 className="font-semibold text-slate-900 mt-3 mb-1">Диагностика</h3>
-            <p className="text-sm text-slate-500">Осмотр и диагностика при выезде</p>
-          </div>
+          {zones.map((zone) => (
+            <div
+              key={zone.title}
+              className={`${zone.cardBg} border border-slate-200 rounded-xl p-6 text-center shadow-sm`}
+            >
+              <span
+                className={`inline-flex items-center justify-center w-12 h-12 ${zone.iconBg} border rounded-lg`}
+              >
+                <span className={zone.iconClass}>{zone.icon}</span>
+              </span>
+              <h3 className="font-semibold text-slate-900 mt-3 mb-1">{zone.title}</h3>
+              <p className="text-sm text-slate-600">{zone.desc}</p>
+              {zone.price && (
+                <p className="mt-2 inline-block text-base font-bold text-white bg-blue-600 rounded-full px-3.5 py-1">
+                  {zone.price}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
         <p className="text-center text-sm text-slate-500">Другие районы области — по договорённости.</p>
       </div>
@@ -146,15 +222,39 @@ function Zones() {
 
 function How() {
   const steps = [
-    { num: '01', icon: <Phone size={20} />, title: 'Звонок', desc: 'Обсуждаем задачу' },
-    { num: '02', icon: <Truck size={20} />, title: 'Выезд', desc: 'По договорённости' },
-    { num: '03', icon: <Wrench size={20} />, title: 'Ремонт', desc: '' },
+    {
+      num: '01',
+      icon: <Phone size={20} />,
+      title: 'Звонок',
+      desc: 'Обсуждаем задачу',
+      iconClass: 'text-blue-600',
+      iconBg: 'bg-blue-50 border-blue-100',
+    },
+    {
+      num: '02',
+      icon: <Truck size={20} />,
+      title: 'Выезд',
+      desc: 'По договорённости',
+      iconClass: 'text-emerald-600',
+      iconBg: 'bg-emerald-50 border-emerald-100',
+    },
+    {
+      num: '03',
+      icon: <Wrench size={20} />,
+      title: 'Ремонт',
+      desc: '',
+      iconClass: 'text-violet-600',
+      iconBg: 'bg-violet-50 border-violet-100',
+    },
   ];
 
   return (
     <section className="py-12 bg-slate-50" id="how">
       <div className="max-w-4xl mx-auto px-5">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Как всё пройдёт</h2>
+        <div className="flex items-start gap-3 mb-6">
+          <span className="w-1 h-8 bg-blue-600 rounded-full mt-1" />
+          <h2 className="text-2xl font-bold text-slate-900">Как всё пройдёт</h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {steps.map((step) => (
             <div
@@ -162,8 +262,10 @@ function How() {
               className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-50 border border-blue-100 rounded-lg">
-                  <span className="text-blue-700">{step.icon}</span>
+                <span
+                  className={`inline-flex items-center justify-center w-10 h-10 ${step.iconBg} border rounded-lg`}
+                >
+                  <span className={step.iconClass}>{step.icon}</span>
                 </span>
                 <span className="text-2xl font-bold text-slate-300">{step.num}</span>
               </div>
@@ -244,7 +346,7 @@ function FormSection() {
         </div>
 
         {status === 'success' ? (
-          <div className="bg-slate-50 border border-green-200 rounded-xl p-8 text-center">
+          <div className="bg-slate-50 border border-green-200 rounded-xl p-8 text-center shadow-sm">
             <span className="inline-flex items-center justify-center w-14 h-14 bg-green-50 border border-green-200 rounded-full mb-4">
               <CheckCircle2 size={28} className="text-green-600" />
             </span>
@@ -265,7 +367,7 @@ function FormSection() {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+          <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-xl p-6 shadow-md">
             <label className="block text-sm font-semibold text-slate-700 mb-3">
               Имя
               <input
@@ -273,7 +375,7 @@ function FormSection() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Иван"
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
               />
             </label>
             <label className="block text-sm font-semibold text-slate-700 mb-3">
@@ -283,7 +385,7 @@ function FormSection() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+7 (___) ___-__-__"
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
               />
             </label>
             <label className="block text-sm font-semibold text-slate-700 mb-3">
@@ -292,14 +394,14 @@ function FormSection() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={2}
-                placeholder="Не включается, тормозит..."
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
+                placeholder="Не включается, тормози��..."
+                className="w-full mt-1.5 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
               />
             </label>
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {status === 'loading' ? 'Отправка...' : 'Отправить заявку'}
             </button>

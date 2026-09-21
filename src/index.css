@@ -5,11 +5,14 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #f8fafc;
+    background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 45%, #ffffff 100%);
     color: #0f172a;
+    scroll-behavior: smooth;
   }
 
   body {
     margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
