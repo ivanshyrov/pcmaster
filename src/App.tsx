@@ -11,7 +11,7 @@ import {
   MapPin,
   Building2,
   Activity,
-  Car,
+  Truck,
   Wrench,
 } from 'lucide-react';
 
@@ -145,7 +145,7 @@ function Zones() {
 function How() {
   const steps = [
     { num: '01', icon: <Phone size={20} />, title: 'Звонок', desc: 'Обсуждаем задачу' },
-    { num: '02', icon: <Car size={20} />, title: 'Выезд', desc: 'По договорённости' },
+    { num: '02', icon: <Truck size={20} />, title: 'Выезд', desc: 'По договорённости' },
     { num: '03', icon: <Wrench size={20} />, title: 'Ремонт', desc: 'При вас, до результата' },
   ];
 
