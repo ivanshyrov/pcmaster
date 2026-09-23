@@ -526,7 +526,7 @@ function PricePage() {
 function AutoPage() {
   return (
     <main className="py-14 bg-white/60">
-      <div className="max-w-4xl mx-auto px-5">
+      <div className="max-w-5xl mx-auto px-5">
         <a
           href="#top"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors mb-5"
@@ -542,21 +542,21 @@ function AutoPage() {
           Установка и замена авто-электроники: магнитолы, видеорегистраторы, камеры, парктроники, сигнализации, акустика.
           Стоимость согласовывается в зависимости от марки авто и сложности работ — оставьте заявку, и я назову точную цену.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {autoTasks.map((task) => (
             <div
               key={task.image}
-              className="bg-white/85 border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm flex flex-col"
+              className="bg-white/85 border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm flex flex-col"
             >
-              <div className="rounded-lg overflow-hidden border border-slate-200 bg-white">
+              <div className="rounded-lg overflow-hidden bg-white">
                 <img
                   src={task.image}
                   alt={task.alt}
                   loading="lazy"
-                  className="w-full max-h-64 md:max-h-72 object-contain bg-white"
+                  className="w-full max-h-52 md:max-h-56 object-contain bg-white"
                 />
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed mt-4">{task.desc}</p>
+              <p className="text-sm text-slate-600 leading-relaxed mt-3">{task.desc}</p>
             </div>
           ))}
         </div>
