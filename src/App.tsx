@@ -16,8 +16,6 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 import KineticGrid from './components/ui/kinetic-grid';
-import AutoIllustration from './components/ui/auto-illustration';
-import type { AutoVariant } from './components/ui/auto-illustration';
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
@@ -45,56 +43,56 @@ const tasks: Task[] = [
 ];
 
 type AutoTask = {
-  variant: AutoVariant;
-  title: string;
+  image: string;
+  alt: string;
   desc: string;
 };
 
 const autoTasks: AutoTask[] = [
   {
-    variant: 'headunit',
-    title: 'Замена штатной магнитолы',
+    image: '/images/headunit.jpg',
+    alt: 'Замена штатной магнитолы',
     desc: 'Демонтирую старую магнитолу, установлю новую с подходящей переходной рамкой, подключу питание, акустику и управление с кнопок на руле. Проверю корректную работу всех функций.',
   },
   {
-    variant: 'headunit',
-    title: 'Установка магнитолы',
+    image: '/images/magnetola.jpg',
+    alt: 'Установка магнитолы',
     desc: 'Установка 1DIN и 2DIN магнитол с нуля: прокладка проводов, подключение ISO-разъёмов, настройка звука, подключение камеры заднего вида и USB. Подберу переходную рамку под вашу машину.',
   },
   {
-    variant: 'dashcam',
-    title: 'Установка видеорегистратора',
+    image: '/images/dashcam.jpg',
+    alt: 'Установка видеорегистратора',
     desc: 'Аккуратно проложу кабель по стойке и под потолком (без оголённых проводов), подключу питание от прикуривателя или скрыто — от блока предохранителей, настрою запись и парковочный режим.',
   },
   {
-    variant: 'subwoofer',
-    title: 'Установка сабвуфера',
+    image: '/images/subwoofer.jpg',
+    alt: 'Установка сабвуфера',
     desc: 'Подключу активный или пассивный сабвуфер: прокладка силового кабеля от аккумулятора, установка предохранителя, настройка усилителя и уровня баса под ваши предпочтения.',
   },
   {
-    variant: 'rear-camera',
-    title: 'Установка камеры заднего вида',
+    image: '/images/rear-camera.jpg',
+    alt: 'Установка камеры заднего вида',
     desc: 'Установлю камеру в штатное место или на номерной знак, проложу видеокабель до магнитолы, подключу питание от фонаря заднего хода и проверю вывод изображения.',
   },
   {
-    variant: 'parktronic',
-    title: 'Установка парктроников',
+    image: '/images/parktronic.jpg',
+    alt: 'Установка парктроников',
     desc: 'Разметка и сверление бампера, аккуратный монтаж датчиков, прокладка проводки в салон, подключение блока управления и дисплея со звуковой индикацией. Калибровка и проверка работы.',
   },
   {
-    variant: 'alarm',
-    title: 'Установка сигнализации',
+    image: '/images/alarm.jpg',
+    alt: 'Установка сигнализации',
     desc: 'Установка сигнализации с обратной связью: подключение центрального замка, датчиков удара и наклона, сирены, настройка автозапуска (при наличии) и проверка всех режимов.',
   },
   {
-    variant: 'speakers',
-    title: 'Установка акустики в двери',
+    image: '/images/speakers.jpg',
+    alt: 'Установка акустики в двери',
     desc: 'Замена штатных динамиков на новые: подготовка и шумоизоляция посадочных мест, установка переходных колец, пайка и изоляция соединений, настройка звука.',
   },
   {
-    variant: 'amplifier',
-    title: 'Установка усилителя',
-    desc: 'Подключение усилителя к магнитоле и акустике: прокладка силового кабеля от аккумулятора, установка пре��охранителя и конденсатора (при необходимости), настройка уровней сигнала.',
+    image: '/images/amplifier.jpg',
+    alt: 'Установка усилителя',
+    desc: 'Подключение усилителя к магнитоле и акустике: прокладка силового кабеля от аккумулятора, установка предохранителя и конденсатора (при необходимости), настройка уровней сигнала.',
   },
 ];
 
@@ -550,14 +548,18 @@ function AutoPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {autoTasks.map((task) => (
             <div
-              key={task.title}
+              key={task.image}
               className="bg-white/85 border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm flex flex-col"
             >
-              <div className="rounded-lg overflow-hidden border border-blue-100 bg-blue-50/40 mb-4">
-                <AutoIllustration variant={task.variant} />
+              <div className="rounded-lg overflow-hidden border border-slate-200 bg-white">
+                <img
+                  src={task.image}
+                  alt={task.alt}
+                  loading="lazy"
+                  className="w-full h-48 md:h-56 object-cover"
+                />
               </div>
-              <h2 className="text-lg font-bold text-slate-900 mb-2">{task.title}</h2>
-              <p className="text-sm text-slate-600 leading-relaxed">{task.desc}</p>
+              <p className="text-sm text-slate-600 leading-relaxed mt-4">{task.desc}</p>
             </div>
           ))}
         </div>
