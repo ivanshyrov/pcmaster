@@ -192,9 +192,9 @@ function Hero() {
         </div>
         <a
           href="#auto"
-          className="sm:hidden inline-flex items-center justify-center mt-4 text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors"
+          className="sm:hidden inline-flex items-center justify-center mt-4 px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
         >
-          Авто-электроника →
+          Авто-электроника
         </a>
       </div>
     </section>
