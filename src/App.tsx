@@ -15,6 +15,7 @@ import {
   Wrench,
   CheckCircle2,
 } from 'lucide-react';
+import KineticGrid from '@/components/ui/kinetic-grid';
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
@@ -37,14 +38,14 @@ const tasks: Task[] = [
   { icon: <Monitor size={20} />, title: 'Windows и программы', desc: 'Установка, переустановка, настройка' },
   { icon: <Bug size={20} />, title: 'Вирусы и реклама', desc: 'Лечение, удаление' },
   { icon: <Wind size={20} />, title: 'Чистка от пыли', desc: 'Системный блок, ноутбук, термопаста' },
-  { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под ключ, замена комплектующих' },
+  { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под кл��ч, замена комплектующих' },
   { icon: <Wifi size={20} />, title: 'Интернет и Wi-Fi', desc: 'Настройка роутера, сети' },
   { icon: <Database size={20} />, title: 'Восстановление данных', desc: 'HDD, SSD, флешки' },
 ];
 
 function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-200">
       <div className="max-w-4xl mx-auto px-5 flex items-center justify-between gap-5 py-3.5">
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
@@ -59,7 +60,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="py-14 md:py-20 bg-white">
+    <section className="py-14 md:py-20 bg-white/60">
       <div className="max-w-4xl mx-auto px-5">
         <p className="text-sm font-semibold text-blue-700 mb-3">Нижний Новгород и область</p>
         <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
@@ -78,7 +79,7 @@ function Hero() {
           </a>
           <a
             href={PHONE_LINK}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-slate-700 no-underline border border-slate-300 hover:border-blue-600 hover:text-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-slate-700 no-underline border border-slate-300 bg-white/70 hover:border-blue-600 hover:text-blue-700 transition-colors"
           >
             <Phone size={18} />
             {PHONE}
@@ -91,7 +92,7 @@ function Hero() {
 
 function Tasks() {
   return (
-    <section className="py-12 bg-slate-50" id="services">
+    <section className="py-12 bg-slate-50/60" id="services">
       <div className="max-w-4xl mx-auto px-5">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Что делаю</h2>
         <p className="text-slate-500 mb-6">
@@ -101,7 +102,7 @@ function Tasks() {
           {tasks.map((task) => (
             <div
               key={task.title}
-              className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white/80 border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"
             >
               <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-50 border border-blue-100 rounded-lg mb-3">
                 <span className="text-blue-700">{task.icon}</span>
@@ -118,18 +119,18 @@ function Tasks() {
 
 function Zones() {
   return (
-    <section className="py-12 bg-white border-y border-slate-200" id="zones">
+    <section className="py-12 bg-white/60 border-y border-slate-200" id="zones">
       <div className="max-w-4xl mx-auto px-5">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Выезд</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
+          <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-6 text-center backdrop-blur-sm">
             <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
               <MapPin size={24} className="text-blue-700" />
             </span>
             <h3 className="font-semibold text-slate-900 mt-3 mb-1">Кстовский район</h3>
             <p className="text-sm text-slate-500">Выезжаю по району</p>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
+          <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-6 text-center backdrop-blur-sm">
             <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
               <Building2 size={24} className="text-blue-700" />
             </span>
@@ -137,7 +138,7 @@ function Zones() {
             <p className="text-sm text-slate-500">Выезд по городу</p>
             <p className="mt-1 text-base font-bold text-slate-900">500 ₽</p>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
+          <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-6 text-center backdrop-blur-sm">
             <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 border border-blue-100 rounded-lg">
               <Activity size={24} className="text-blue-700" />
             </span>
@@ -159,14 +160,14 @@ function How() {
   ];
 
   return (
-    <section className="py-12 bg-slate-50" id="how">
+    <section className="py-12 bg-slate-50/60" id="how">
       <div className="max-w-4xl mx-auto px-5">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Как всё пройдёт</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {steps.map((step) => (
             <div
               key={step.num}
-              className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white/80 border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="inline-flex items-center justify-center w-10 h-10 bg-blue-50 border border-blue-100 rounded-lg">
@@ -254,7 +255,7 @@ function FormSection() {
   };
 
   return (
-    <section className="py-14 bg-white border-t border-slate-200" id="form">
+    <section className="py-14 bg-white/60 border-t border-slate-200" id="form">
       <div className="max-w-4xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Сломалось?</h2>
@@ -267,7 +268,7 @@ function FormSection() {
         </div>
 
         {status === 'success' ? (
-          <div className="bg-slate-50 border border-green-200 rounded-xl p-8 text-center">
+          <div className="bg-slate-50/80 border border-green-200 rounded-xl p-8 text-center backdrop-blur-sm">
             <span className="inline-flex items-center justify-center w-14 h-14 bg-green-50 border border-green-200 rounded-full mb-4">
               <CheckCircle2 size={28} className="text-green-600" />
             </span>
@@ -288,7 +289,7 @@ function FormSection() {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+          <form onSubmit={handleSubmit} className="bg-slate-50/80 border border-slate-200 rounded-xl p-6 backdrop-blur-sm">
             <label className="block text-sm font-semibold text-slate-700 mb-3">
               Имя
               <input
@@ -356,7 +357,7 @@ function FormSection() {
 
 function Footer() {
   return (
-    <footer className="bg-slate-900 py-5 text-sm text-slate-400">
+    <footer className="bg-slate-900/95 py-5 text-sm text-slate-400 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto px-5 flex justify-between gap-4 flex-wrap items-center">
         <span>© {new Date().getFullYear()} Компьютерный мастер Сергей · Нижний Новгород</span>
         <a href={PHONE_LINK} className="text-white font-semibold no-underline">
@@ -369,7 +370,7 @@ function Footer() {
 
 export default function App() {
   return (
-    <>
+    <KineticGrid>
       <div id="top" />
       <Header />
       <main>
@@ -380,6 +381,6 @@ export default function App() {
         <FormSection />
       </main>
       <Footer />
-    </>
+    </KineticGrid>
   );
 }
