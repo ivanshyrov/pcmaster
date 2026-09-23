@@ -154,7 +154,7 @@ function Header() {
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
-        <nav className="flex items-center gap-4">
+        <nav className="hidden sm:flex items-center gap-4">
           <a href="#auto" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
             Авто-электроника
           </a>
@@ -190,6 +190,12 @@ function Hero() {
             Прайс
           </a>
         </div>
+        <a
+          href="#auto"
+          className="sm:hidden inline-flex items-center justify-center mt-4 text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors"
+        >
+          Авто-электроника →
+        </a>
       </div>
     </section>
   );
