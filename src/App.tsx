@@ -13,6 +13,7 @@ import {
   Truck,
   Wrench,
   CheckCircle2,
+  ArrowLeft,
 } from 'lucide-react';
 import KineticGrid from './components/ui/kinetic-grid';
 
@@ -100,11 +101,11 @@ function Header() {
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
         <nav className="flex items-center gap-4">
-          <a href="#price" className="text-slate-600 font-semibold text-sm no-underline hover:text-blue-700 transition-colors">
+          <a
+            href="#price"
+            className="inline-block px-4 py-2 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors text-sm"
+          >
             Прайс
-          </a>
-          <a href={PHONE_LINK} className="text-blue-700 font-bold text-sm md:text-base no-underline whitespace-nowrap">
-            {PHONE}
           </a>
         </nav>
       </div>
@@ -130,13 +131,6 @@ function Hero() {
             className="inline-block px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
           >
             Оставить заявку
-          </a>
-          <a
-            href={PHONE_LINK}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-slate-700 no-underline border border-slate-300 bg-white/70 hover:border-blue-600 hover:text-blue-700 transition-colors"
-          >
-            <Phone size={18} />
-            {PHONE}
           </a>
         </div>
       </div>
@@ -317,9 +311,11 @@ function FormSection() {
           <p className="text-slate-600 mb-5">
             Оставьте заявку — Сергей перезвонит в течение часа, уточнит детали и назовёт стоимость работ.
           </p>
-          <a href={PHONE_LINK} className="text-2xl md:text-3xl font-bold text-blue-700 no-underline">
-            {PHONE}
-          </a>
+          <ul className="text-sm text-slate-600 space-y-2">
+            <li>• Перезвоню в течение часа</li>
+            <li>• Выезд по городу — 500 ₽</li>
+            <li>• Ремонт до результата</li>
+          </ul>
         </div>
 
         {status === 'success' ? (
@@ -415,14 +411,9 @@ function Footer() {
     <footer className="bg-slate-900/95 py-5 text-sm text-slate-400 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto px-5 flex justify-between gap-4 flex-wrap items-center">
         <span>© {new Date().getFullYear()} Компьютерный мастер Сергей · Нижний Новгород</span>
-        <div className="flex items-center gap-4">
-          <a href="#price" className="text-slate-300 font-semibold no-underline hover:text-white transition-colors">
-            Прайс
-          </a>
-          <a href={PHONE_LINK} className="text-white font-semibold no-underline">
-            {PHONE}
-          </a>
-        </div>
+        <a href={PHONE_LINK} className="text-white font-semibold no-underline">
+          {PHONE}
+        </a>
       </div>
     </footer>
   );
@@ -432,6 +423,13 @@ function PricePage() {
   return (
     <main className="py-14 bg-white/60">
       <div className="max-w-4xl mx-auto px-5">
+        <a
+          href="#top"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors mb-5"
+        >
+          <ArrowLeft size={16} />
+          Назад на главную
+        </a>
         <p className="text-sm font-semibold text-blue-700 mb-3">Прайс-лист</p>
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">
           Услуги и цены
@@ -462,9 +460,9 @@ function PricePage() {
           ))}
         </div>
         <p className="mt-8 text-center text-sm text-slate-500">
-          Не нашли свою задачу? Позвоните —{' '}
-          <a href={PHONE_LINK} className="text-blue-700 font-semibold no-underline">
-            {PHONE}
+          Не нашли свою задачу?{' '}
+          <a href="#form" className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
+            Оставьте заявку
           </a>{' '}
           — подскажем стоимость.
         </p>
@@ -480,8 +478,21 @@ export default function App() {
 
   useEffect(() => {
     const onHashChange = () => {
-      setPage(window.location.hash === '#price' ? 'price' : 'home');
-      window.scrollTo({ top: 0 });
+      if (window.location.hash === '#price') {
+        setPage('price');
+        window.scrollTo({ top: 0 });
+      } else {
+        setPage('home');
+        // Если перешли на якорь формы — плавно прокручиваем к ней после рендера
+        requestAnimationFrame(() => {
+          const el = document.getElementById('form');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0 });
+          }
+        });
+      }
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
