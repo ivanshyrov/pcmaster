@@ -158,9 +158,6 @@ function Header() {
           <a href="#auto" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
             Авто-электроника
           </a>
-          <a href="#price" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
-            Прайс
-          </a>
         </nav>
       </div>
     </header>
