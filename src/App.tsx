@@ -553,7 +553,7 @@ function AutoPage() {
                   src={task.image}
                   alt={task.alt}
                   loading="lazy"
-                  className="w-full h-48 md:h-56 object-cover"
+                  className="w-full h-auto block"
                 />
               </div>
               <p className="text-sm text-slate-600 leading-relaxed mt-4">{task.desc}</p>

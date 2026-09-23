@@ -82,8 +82,14 @@ export default function KineticGrid({ children }: KineticGridProps) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#f4f6fb]">
-      <canvas ref={canvasRef} className="fixed inset-0 -z-10" aria-hidden="true" />
-      {children}
+      {/* Канвас-подложка: закреплена, позади контента */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 z-0 pointer-events-none"
+        aria-hidden="true"
+      />
+      {/* Контент поверх фона */}
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }
