@@ -15,7 +15,7 @@ import {
   Wrench,
   CheckCircle2,
 } from 'lucide-react';
-import KineticGrid from '@/components/ui/kinetic-grid';
+import KineticGrid from './components/ui/kinetic-grid';
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
