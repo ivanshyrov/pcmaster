@@ -1,9 +1,8 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import {
   Phone,
   Monitor,
-  Bug,
   Wind,
   Cpu,
   Wifi,
@@ -36,23 +35,78 @@ type Task = {
 
 const tasks: Task[] = [
   { icon: <Monitor size={20} />, title: 'Windows и программы', desc: 'Установка, переустановка, настройка' },
-  { icon: <Bug size={20} />, title: 'Вирусы и реклама', desc: 'Лечение, удаление' },
   { icon: <Wind size={20} />, title: 'Чистка от пыли', desc: 'Системный блок, ноутбук, термопаста' },
-  { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под кл��ч, замена комплектующих' },
+  { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под ключ, замена комплектующих' },
   { icon: <Wifi size={20} />, title: 'Интернет и Wi-Fi', desc: 'Настройка роутера, сети' },
   { icon: <Database size={20} />, title: 'Восстановление данных', desc: 'HDD, SSD, флешки' },
+];
+
+const priceGroups: { title: string; items: { name: string; price: string }[] }[] = [
+  {
+    title: 'Диагностика и ремонт',
+    items: [
+      { name: 'Диагностика компьютера', price: 'от 500 ₽' },
+      { name: 'Ремонт и настройка компьютеров и ноутбуков', price: 'от 1 500 ₽' },
+      { name: 'Ремонт после залития', price: 'от 3 000 ₽' },
+      { name: 'Ремонт видеокарты', price: 'от 2 500 ₽' },
+    ],
+  },
+  {
+    title: 'Windows и программы',
+    items: [
+      { name: 'Установка Windows с драйверами', price: 'от 2 000 ₽' },
+      { name: 'Установка программы', price: 'от 500 ₽' },
+      { name: 'Установка антивируса', price: 'от 500 ₽' },
+      { name: 'Оптимизация и ускорение работы', price: 'от 1 000 ₽' },
+    ],
+  },
+  {
+    title: 'Чистка и обслуживание',
+    items: [
+      { name: 'Чистка системы охлаждения', price: 'от 1 500 ₽' },
+      { name: 'Замена термопасты', price: 'от 1 000 ₽' },
+      { name: 'Абонентское обслуживание', price: 'от 1 000 ₽' },
+    ],
+  },
+  {
+    title: 'Сборка и апгрейд',
+    items: [
+      { name: 'Сборка компьютера', price: 'от 3 000 ₽' },
+      { name: 'Замена комплектующих', price: 'от 1 000 ₽' },
+      { name: 'Увеличение оперативной памяти', price: 'от 1 000 ₽' },
+    ],
+  },
+  {
+    title: 'Интернет и данные',
+    items: [
+      { name: 'Настройка интернета и Wi-Fi', price: 'от 1 000 ₽' },
+      { name: 'Восстановление удалённых файлов', price: 'от 3 000 ₽' },
+    ],
+  },
+  {
+    title: 'Выезд',
+    items: [
+      { name: 'Выезд по Нижнему Новгороду', price: '500 ₽' },
+      { name: 'Выезд по Кстовскому району', price: 'по договорённости' },
+    ],
+  },
 ];
 
 function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-200">
-      <div className="max-w-4xl mx-auto px-5 flex items-center justify-between gap-5 py-3.5">
+      <div className="max-w-4xl mx-auto px-5 flex items-center justify-between gap-4 py-3.5">
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
-        <a href={PHONE_LINK} className="text-blue-700 font-bold text-base no-underline whitespace-nowrap">
-          {PHONE}
-        </a>
+        <nav className="flex items-center gap-4">
+          <a href="#price" className="text-slate-600 font-semibold text-sm no-underline hover:text-blue-700 transition-colors">
+            Прайс
+          </a>
+          <a href={PHONE_LINK} className="text-blue-700 font-bold text-sm md:text-base no-underline whitespace-nowrap">
+            {PHONE}
+          </a>
+        </nav>
       </div>
     </header>
   );
@@ -67,7 +121,7 @@ function Hero() {
           Ремонт компьютеров и ноутбуков
         </h1>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl">
-          Сергей — компьютерный мастер. Windows, вирусы, чистка, сборка ПК.
+          Сергей — компьютерный мастер. Windows, чистка, сборка ПК.
           Оставьте заявку — перезвоню в течение часа, уточню детали и назову стоимость работ.
         </p>
         <div className="flex gap-4 flex-wrap">
@@ -144,6 +198,7 @@ function Zones() {
             </span>
             <h3 className="font-semibold text-slate-900 mt-3 mb-1">Диагностика</h3>
             <p className="text-sm text-slate-500">Осмотр и диагностика при выезде</p>
+            <p className="mt-1 text-base font-bold text-slate-900">от 500 ₽</p>
           </div>
         </div>
         <p className="text-center text-sm text-slate-500">Другие районы области — по договорённости.</p>
@@ -360,26 +415,91 @@ function Footer() {
     <footer className="bg-slate-900/95 py-5 text-sm text-slate-400 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto px-5 flex justify-between gap-4 flex-wrap items-center">
         <span>© {new Date().getFullYear()} Компьютерный мастер Сергей · Нижний Новгород</span>
-        <a href={PHONE_LINK} className="text-white font-semibold no-underline">
-          {PHONE}
-        </a>
+        <div className="flex items-center gap-4">
+          <a href="#price" className="text-slate-300 font-semibold no-underline hover:text-white transition-colors">
+            Прайс
+          </a>
+          <a href={PHONE_LINK} className="text-white font-semibold no-underline">
+            {PHONE}
+          </a>
+        </div>
       </div>
     </footer>
   );
 }
 
+function PricePage() {
+  return (
+    <main className="py-14 bg-white/60">
+      <div className="max-w-4xl mx-auto px-5">
+        <p className="text-sm font-semibold text-blue-700 mb-3">Прайс-лист</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">
+          Услуги и цены
+        </h1>
+        <p className="text-slate-600 mb-8 max-w-2xl">
+          Цены указаны «от» — точная стоимость зависит от сложности работ. Перезвоню и назову итоговую сумму до начала работ.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {priceGroups.map((group) => (
+            <div
+              key={group.title}
+              className="bg-white/85 border border-slate-200 rounded-xl p-6 shadow-sm backdrop-blur-sm"
+            >
+              <h2 className="text-lg font-bold text-slate-900 mb-4">{group.title}</h2>
+              <table className="w-full text-sm">
+                <tbody>
+                  {group.items.map((item) => (
+                    <tr key={item.name} className="border-b border-slate-100 last:border-0">
+                      <td className="py-2.5 pr-3 text-slate-700">{item.name}</td>
+                      <td className="py-2.5 text-right font-semibold text-slate-900 whitespace-nowrap">
+                        {item.price}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-center text-sm text-slate-500">
+          Не нашли свою задачу? Позвоните —{' '}
+          <a href={PHONE_LINK} className="text-blue-700 font-semibold no-underline">
+            {PHONE}
+          </a>{' '}
+          — подскажем стоимость.
+        </p>
+      </div>
+    </main>
+  );
+}
+
 export default function App() {
+  const [page, setPage] = useState<'home' | 'price'>(() =>
+    typeof window !== 'undefined' && window.location.hash === '#price' ? 'price' : 'home',
+  );
+
+  useEffect(() => {
+    const onHashChange = () => {
+      setPage(window.location.hash === '#price' ? 'price' : 'home');
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   return (
     <KineticGrid>
       <div id="top" />
       <Header />
-      <main>
-        <Hero />
-        <Tasks />
-        <Zones />
-        <How />
-        <FormSection />
-      </main>
+      {page === 'price' ? <PricePage /> : (
+        <main>
+          <Hero />
+          <Tasks />
+          <Zones />
+          <How />
+          <FormSection />
+        </main>
+      )}
       <Footer />
     </KineticGrid>
   );
