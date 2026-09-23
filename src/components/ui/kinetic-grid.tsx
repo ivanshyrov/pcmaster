@@ -22,8 +22,11 @@ export default function KineticGrid({ children }: KineticGridProps) {
 
     // Параметры сетки
     const gap = 56;
-    const speed = 12;
+    const speed = 10;
+    const influence = 150; // радиус, в котором курсор влияет на точки
     let offset = 0;
+    let mouseX = -9999;
+    let mouseY = -9999;
 
     const resize = () => {
       width = window.innerWidth;
@@ -56,12 +59,17 @@ export default function KineticGrid({ children }: KineticGridProps) {
       }
       ctx.stroke();
 
-      // Точки на пересечениях
-      ctx.fillStyle = 'rgba(37, 99, 235, 0.35)';
+      // Точки на пересечениях: подсвечиваются и растут рядом с курсором
       for (let x = -(offset % gap); x < width; x += gap) {
         for (let y = -(offset % gap); y < height; y += gap) {
+          const dx = x - mouseX;
+          const dy = y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const t = Math.max(0, 1 - dist / influence);
+          const radius = 1.6 + t * 3;
           ctx.beginPath();
-          ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(37, 99, 235, ${0.35 + t * 0.55})`;
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -70,13 +78,27 @@ export default function KineticGrid({ children }: KineticGridProps) {
       raf = requestAnimationFrame(draw);
     };
 
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const onMouseLeave = () => {
+      mouseX = -9999;
+      mouseY = -9999;
+    };
+
     resize();
     draw();
 
     window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
     };
   }, []);
 
