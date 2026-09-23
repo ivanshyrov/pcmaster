@@ -120,13 +120,13 @@ function Hero() {
         <div className="flex gap-4 flex-wrap items-center">
           <a
             href="#form"
-            className="inline-block px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
           >
             Оставить заявку
           </a>
           <a
             href="#price"
-            className="inline-block px-4 py-2 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors text-sm"
+            className="inline-flex items-center justify-center px-4 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
           >
             Прайс
           </a>
