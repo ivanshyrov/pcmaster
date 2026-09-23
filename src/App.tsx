@@ -16,6 +16,8 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 import KineticGrid from './components/ui/kinetic-grid';
+import AutoIllustration from './components/ui/auto-illustration';
+import type { AutoVariant } from './components/ui/auto-illustration';
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
@@ -40,6 +42,60 @@ const tasks: Task[] = [
   { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под ключ, замена комплектующих' },
   { icon: <Wifi size={20} />, title: 'Интернет и Wi-Fi', desc: 'Настройка роутера, сети' },
   { icon: <Database size={20} />, title: 'Восстановление данных', desc: 'HDD, SSD, флешки' },
+];
+
+type AutoTask = {
+  variant: AutoVariant;
+  title: string;
+  desc: string;
+};
+
+const autoTasks: AutoTask[] = [
+  {
+    variant: 'headunit',
+    title: 'Замена штатной магнитолы',
+    desc: 'Демонтирую старую магнитолу, установлю новую с подходящей переходной рамкой, подключу питание, акустику и управление с кнопок на руле. Проверю корректную работу всех функций.',
+  },
+  {
+    variant: 'headunit',
+    title: 'Установка магнитолы',
+    desc: 'Установка 1DIN и 2DIN магнитол с нуля: прокладка проводов, подключение ISO-разъёмов, настройка звука, подключение камеры заднего вида и USB. Подберу переходную рамку под вашу машину.',
+  },
+  {
+    variant: 'dashcam',
+    title: 'Установка видеорегистратора',
+    desc: 'Аккуратно проложу кабель по стойке и под потолком (без оголённых проводов), подключу питание от прикуривателя или скрыто — от блока предохранителей, настрою запись и парковочный режим.',
+  },
+  {
+    variant: 'subwoofer',
+    title: 'Установка сабвуфера',
+    desc: 'Подключу активный или пассивный сабвуфер: прокладка силового кабеля от аккумулятора, установка предохранителя, настройка усилителя и уровня баса под ваши предпочтения.',
+  },
+  {
+    variant: 'rear-camera',
+    title: 'Установка камеры заднего вида',
+    desc: 'Установлю камеру в штатное место или на номерной знак, проложу видеокабель до магнитолы, подключу питание от фонаря заднего хода и проверю вывод изображения.',
+  },
+  {
+    variant: 'parktronic',
+    title: 'Установка парктроников',
+    desc: 'Разметка и сверление бампера, аккуратный монтаж датчиков, прокладка проводки в салон, подключение блока управления и дисплея со звуковой индикацией. Калибровка и проверка работы.',
+  },
+  {
+    variant: 'alarm',
+    title: 'Установка сигнализации',
+    desc: 'Установка сигнализации с обратной связью: подключение центрального замка, датчиков удара и наклона, сирены, настройка автозапуска (при наличии) и проверка всех режимов.',
+  },
+  {
+    variant: 'speakers',
+    title: 'Установка акустики в двери',
+    desc: 'Замена штатных динамиков на новые: подготовка и шумоизоляция посадочных мест, установка переходных колец, пайка и изоляция соединений, настройка звука.',
+  },
+  {
+    variant: 'amplifier',
+    title: 'Установка усилителя',
+    desc: 'Подключение усилителя к магнитоле и акустике: прокладка силового кабеля от аккумулятора, установка пре��охранителя и конденсатора (при необходимости), настройка уровней сигнала.',
+  },
 ];
 
 const priceGroups: { title: string; items: { name: string; price: string }[] }[] = [
@@ -96,10 +152,18 @@ const priceGroups: { title: string; items: { name: string; price: string }[] }[]
 function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-200">
-      <div className="max-w-4xl mx-auto px-5 flex items-center justify-between gap-4 py-3.5">
+      <div className="max-w-4xl mx-auto px-5 flex items-center justify-between gap-x-4 gap-y-2 flex-wrap py-3.5">
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
+        <nav className="flex items-center gap-4">
+          <a href="#auto" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
+            Авто-электроника
+          </a>
+          <a href="#price" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
+            Прайс
+          </a>
+        </nav>
       </div>
     </header>
   );
@@ -464,28 +528,82 @@ function PricePage() {
   );
 }
 
-export default function App() {
-  const [page, setPage] = useState<'home' | 'price'>(() =>
-    typeof window !== 'undefined' && window.location.hash === '#price' ? 'price' : 'home',
+function AutoPage() {
+  return (
+    <main className="py-14 bg-white/60">
+      <div className="max-w-4xl mx-auto px-5">
+        <a
+          href="#top"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors mb-5"
+        >
+          <ArrowLeft size={16} />
+          Назад на главную
+        </a>
+        <p className="text-sm font-semibold text-blue-700 mb-3">Дополнительные работы</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">
+          Авто-электроника
+        </h1>
+        <p className="text-slate-600 mb-8 max-w-2xl">
+          Установка и замена авто-электроники: магнитолы, видеорегистраторы, камеры, парктроники, сигнализации, акустика.
+          Стоимость согласовывается в зависимости от марки авто и сложности работ — оставьте заявку, и я назову точную цену.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {autoTasks.map((task) => (
+            <div
+              key={task.title}
+              className="bg-white/85 border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm flex flex-col"
+            >
+              <div className="rounded-lg overflow-hidden border border-blue-100 bg-blue-50/40 mb-4">
+                <AutoIllustration variant={task.variant} />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900 mb-2">{task.title}</h2>
+              <p className="text-sm text-slate-600 leading-relaxed">{task.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-center text-sm text-slate-500">
+          Не нашли свою задачу?{' '}
+          <a href="#form" className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
+            Оставьте заявку
+          </a>{' '}
+          — подскажем стоимость.
+        </p>
+      </div>
+    </main>
   );
+}
+
+export default function App() {
+  const [page, setPage] = useState<'home' | 'price' | 'auto'>(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.hash === '#price') return 'price';
+      if (window.location.hash === '#auto') return 'auto';
+    }
+    return 'home';
+  });
 
   useEffect(() => {
     const onHashChange = () => {
       if (window.location.hash === '#price') {
         setPage('price');
         window.scrollTo({ top: 0 });
+        return;
+      }
+      if (window.location.hash === '#auto') {
+        setPage('auto');
+        window.scrollTo({ top: 0 });
+        return;
+      }
+      setPage('home');
+      if (window.location.hash === '#form') {
+        requestAnimationFrame(() => {
+          const el = document.getElementById('form');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
       } else {
-        setPage('home');
-        if (window.location.hash === '#form') {
-          requestAnimationFrame(() => {
-            const el = document.getElementById('form');
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-            }
-          });
-        } else {
-          window.scrollTo({ top: 0 });
-        }
+        window.scrollTo({ top: 0 });
       }
     };
     window.addEventListener('hashchange', onHashChange);
@@ -496,7 +614,11 @@ export default function App() {
     <KineticGrid>
       <div id="top" />
       <Header />
-      {page === 'price' ? <PricePage /> : (
+      {page === 'price' ? (
+        <PricePage />
+      ) : page === 'auto' ? (
+        <AutoPage />
+      ) : (
         <main>
           <Hero />
           <Tasks />
