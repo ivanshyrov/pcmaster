@@ -100,14 +100,6 @@ function Header() {
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
-        <nav className="flex items-center gap-4">
-          <a
-            href="#price"
-            className="inline-block px-4 py-2 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors text-sm"
-          >
-            Прайс
-          </a>
-        </nav>
       </div>
     </header>
   );
@@ -125,12 +117,18 @@ function Hero() {
           Сергей — компьютерный мастер. Windows, чистка, сборка ПК.
           Оставьте заявку — перезвоню в течение часа, уточню детали и назову стоимость работ.
         </p>
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap items-center">
           <a
             href="#form"
             className="inline-block px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
           >
             Оставить заявку
+          </a>
+          <a
+            href="#price"
+            className="inline-block px-4 py-2 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors text-sm"
+          >
+            Прайс
           </a>
         </div>
       </div>
@@ -311,11 +309,6 @@ function FormSection() {
           <p className="text-slate-600 mb-5">
             Оставьте заявку — Сергей перезвонит в течение часа, уточнит детали и назовёт стоимость работ.
           </p>
-          <ul className="text-sm text-slate-600 space-y-2">
-            <li>• Перезвоню в течение часа</li>
-            <li>• Выезд по городу — 500 ₽</li>
-            <li>• Ремонт до результата</li>
-          </ul>
         </div>
 
         {status === 'success' ? (
@@ -483,15 +476,16 @@ export default function App() {
         window.scrollTo({ top: 0 });
       } else {
         setPage('home');
-        // Если перешли на якорь формы — плавно прокручиваем к ней после рендера
-        requestAnimationFrame(() => {
-          const el = document.getElementById('form');
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            window.scrollTo({ top: 0 });
-          }
-        });
+        if (window.location.hash === '#form') {
+          requestAnimationFrame(() => {
+            const el = document.getElementById('form');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        } else {
+          window.scrollTo({ top: 0 });
+        }
       }
     };
     window.addEventListener('hashchange', onHashChange);
