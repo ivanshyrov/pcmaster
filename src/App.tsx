@@ -154,11 +154,6 @@ function Header() {
         <a href="#top" className="text-slate-900 font-bold text-base no-underline">
           Сергей <span className="text-slate-500 font-normal">· компьютерный мастер</span>
         </a>
-        <nav className="hidden sm:flex items-center gap-4">
-          <a href="#auto" className="text-sm font-semibold text-blue-700 no-underline hover:text-blue-800 transition-colors">
-            Авто-электроника
-          </a>
-        </nav>
       </div>
     </header>
   );
@@ -176,26 +171,28 @@ function Hero() {
           Сергей — компьютерный мастер. Windows, чистка, сборка ПК.
           Оставьте заявку — перезвоню в течение часа, уточню детали и назову стоимость работ.
         </p>
-        <div className="flex gap-4 flex-wrap items-center">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex gap-4 flex-wrap items-center">
+            <a
+              href="#form"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+            >
+              Оставить заявку
+            </a>
+            <a
+              href="#price"
+              className="inline-flex items-center justify-center px-4 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+            >
+              Прайс
+            </a>
+          </div>
           <a
-            href="#form"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
-          >
-            Оставить заявку
-          </a>
-          <a
-            href="#price"
+            href="#auto"
             className="inline-flex items-center justify-center px-4 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
           >
-            Прайс
+            Авто-электроника
           </a>
         </div>
-        <a
-          href="#auto"
-          className="sm:hidden inline-flex items-center justify-center mt-4 px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
-        >
-          Авто-электроника
-        </a>
       </div>
     </section>
   );
