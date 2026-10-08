@@ -1,32 +1,9 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { Phone, Monitor, Wind, Cpu, Wifi, MapPin, Building2, Activity, Truck, Wrench, CheckCircle2, ArrowLeft } from 'lucide-react';
 import type { ReactNode } from 'react';
-import {
-  Phone,
-  Monitor,
-  Wind,
-  Cpu,
-  Wifi,
-  Database,
-  MapPin,
-  Building2,
-  Activity,
-  Truck,
-  Wrench,
-  CheckCircle2,
-  ArrowLeft,
-} from 'lucide-react';
 import KineticGrid from './components/ui/kinetic-grid';
 
 const PHONE = '+7 908 863-31-66';
 const PHONE_LINK = 'tel:+79088633166';
-const EMAIL = 'petya.down@mail.ru';
-
-function isValidPhone(value: string): boolean {
-  // Оставляем только цифры
-  const digits = value.replace(/\D/g, '');
-  // Российский номер: 11 цифр, начинается с 7 или 8
-  return digits.length === 11 && /^[78]/.test(digits);
-}
 
 type Task = {
   icon: ReactNode;
@@ -39,7 +16,6 @@ const tasks: Task[] = [
   { icon: <Wind size={20} />, title: 'Чистка от пыли', desc: 'Системный блок, ноутбук, термопаста' },
   { icon: <Cpu size={20} />, title: 'Сборка и апгрейд ПК', desc: 'Под ключ, замена комплектующих' },
   { icon: <Wifi size={20} />, title: 'Интернет и Wi-Fi', desc: 'Настройка роутера, сети' },
-  { icon: <Database size={20} />, title: 'Восстановление данных', desc: 'HDD, SSD, флешки' },
 ];
 
 type AutoTask = {
@@ -78,11 +54,6 @@ const autoTasks: AutoTask[] = [
     image: '/images/parktronic.jpg',
     alt: 'Установка парктроников',
     desc: 'Разметка и сверление бампера, аккуратный монтаж датчиков, прокладка проводки в салон, подключение блока управления и дисплея со звуковой индикацией. Калибровка и проверка работы.',
-  },
-  {
-    image: '/images/alarm.jpg',
-    alt: 'Установка сигнализации',
-    desc: 'Установка сигнализации с обратной связью: подключение центрального замка, датчиков удара и наклона, сирены, настройка автозапуска (при наличии) и проверка всех режимов.',
   },
   {
     image: '/images/speakers.jpg',
@@ -169,15 +140,16 @@ function Hero() {
         </h1>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl">
           Сергей — компьютерный мастер. Windows, чистка, сборка ПК.
-          Оставьте заявку — перезвоню в течение часа, уточню детали и назову стоимость работ.
+          Позвоните — уточню детали и назову стоимость работ.
         </p>
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex gap-4 flex-wrap items-center">
             <a
-              href="#form"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+              href={PHONE_LINK}
+              className="inline-flex items-center gap-2 justify-center px-6 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
             >
-              Оставить заявку
+              <Phone size={18} />
+              Позвонить
             </a>
             <a
               href="#price"
@@ -206,7 +178,7 @@ function Tasks() {
         <p className="text-slate-500 mb-6">
           Точную стоимость назову после уточнения деталей — перезвоню и согласуем цену.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {tasks.map((task) => (
             <div
               key={task.title}
@@ -294,168 +266,42 @@ function How() {
   );
 }
 
-function FormSection() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [statusText, setStatusText] = useState('');
-  const [sentName, setSentName] = useState('');
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!name.trim() || !phone.trim()) {
-      setStatus('error');
-      setStatusText('Укажите имя и телефон.');
-      return;
-    }
-
-    if (!isValidPhone(phone)) {
-      setStatus('error');
-      setStatusText('Введите корректный номер телефона, например +7 (900) 123-45-67.');
-      return;
-    }
-
-    if (!consent) {
-      setStatus('error');
-      setStatusText('Необходимо согласие на обработку персональных данных.');
-      return;
-    }
-
-    setStatus('loading');
-    setStatusText('');
-
-    try {
-      const res = await fetch('/api/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          phone: phone.trim(),
-          message: message.trim() || 'Не указано',
-          consent: true,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Ошибка отправки');
-      }
-
-      setSentName(name.trim());
-      setStatus('success');
-      setName('');
-      setPhone('');
-      setMessage('');
-      setConsent(false);
-    } catch {
-      const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(`Заявка от ${name}`)}&body=${encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\nПроблема: ${message || 'Не указана'}\n\nСогласие на обработку персональных данных: получено`)}`;
-      window.open(mailtoLink, '_blank');
-      setSentName(name.trim());
-      setStatus('success');
-      setName('');
-      setPhone('');
-      setMessage('');
-      setConsent(false);
-    }
-  };
-
+function CallSection() {
   return (
     <section className="py-14 bg-white/60 border-t border-slate-200" id="form">
       <div className="max-w-4xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Сломалось?</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">Нужна помощь?</h2>
           <p className="text-slate-600 mb-5">
-            Оставьте заявку — Сергей перезвонит в течение часа, уточнит детали и назовёт стоимость работ.
+            Позвоните Сергею — уточним задачу и назовём стоимость работ.
+            Если не ответили — перезвоню в ближайшее время.
           </p>
+          <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-5 backdrop-blur-sm">
+            <p className="text-sm font-semibold text-slate-700 mb-2">График приёма звонков:</p>
+            <p className="text-slate-600 text-sm">Пн–Пт: 8:00 – 17:00</p>
+            <p className="text-slate-600 text-sm">Сб–Вс: выходной</p>
+          </div>
         </div>
 
-        {status === 'success' ? (
-          <div className="bg-slate-50/80 border border-green-200 rounded-xl p-8 text-center backdrop-blur-sm">
-            <span className="inline-flex items-center justify-center w-14 h-14 bg-green-50 border border-green-200 rounded-full mb-4">
-              <CheckCircle2 size={28} className="text-green-600" />
-            </span>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Обращение отправлено</h3>
-            <p className="text-slate-600 mb-6">
-              {sentName ? `${sentName}, спасибо! ` : ''}Сергей перезвонит в течение часа.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setStatus('idle');
-                setStatusText('');
-                setSentName('');
-              }}
-              className="px-5 py-2.5 rounded-lg font-semibold text-blue-700 border border-blue-200 bg-blue-50 hover:bg-blue-100 transition-colors"
-            >
-              Отправить ещё заявку
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="bg-slate-50/80 border border-slate-200 rounded-xl p-6 backdrop-blur-sm">
-            <label className="block text-sm font-semibold text-slate-700 mb-3">
-              Имя
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Иван"
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
-              />
-            </label>
-            <label className="block text-sm font-semibold text-slate-700 mb-3">
-              Телефон
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+7 (___) ___-__-__"
-                inputMode="tel"
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
-              />
-            </label>
-            <label className="block text-sm font-semibold text-slate-700 mb-3">
-              Что случилось?
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                rows={2}
-                placeholder="Не включается, тормозит..."
-                className="w-full mt-1.5 px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
-              />
-            </label>
-            <label className="flex items-start gap-2.5 text-xs text-slate-600 mb-4 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 w-4 h-4 accent-blue-600"
-              />
-              <span>
-                Я согласен на обработку персональных данных в соответствии с{' '}
-                <a href="/privacy.html" target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">
-                  политикой конфиденциальности
-                </a>
-              </span>
-            </label>
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {status === 'loading' ? 'Отправка...' : 'Отправить заявку'}
-            </button>
-            <p className="mt-3 text-xs text-slate-500 text-center">
-              Нажимая кнопку, вы даёте согласие на обработку персональных данных
-            </p>
-            {status === 'error' && statusText && (
-              <p className="mt-3.5 text-sm font-semibold text-red-600">{statusText}</p>
-            )}
-          </form>
-        )}
+        <div className="bg-slate-50/80 border border-slate-200 rounded-xl p-8 text-center backdrop-blur-sm">
+          <span className="inline-flex items-center justify-center w-14 h-14 bg-blue-50 border border-blue-100 rounded-full mb-4">
+            <Phone size={28} className="text-blue-700" />
+          </span>
+          <h3 className="text-xl font-bold text-slate-900 mb-2">Позвоните мне</h3>
+          <a
+            href={PHONE_LINK}
+            className="block text-2xl md:text-3xl font-bold text-blue-700 no-underline hover:text-blue-800 transition-colors mb-6"
+          >
+            {PHONE}
+          </a>
+          <a
+            href={PHONE_LINK}
+            className="inline-flex items-center gap-2 justify-center px-8 py-3 rounded-lg font-semibold text-white no-underline bg-blue-600 hover:bg-blue-700 transition-colors"
+          >
+            <Phone size={18} />
+            Позвонить
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -490,7 +336,7 @@ function PricePage() {
           Услуги и цены
         </h1>
         <p className="text-slate-600 mb-8 max-w-2xl">
-          Цены указаны «от» — точная стоимость зависит от сложности работ. Перезвоню и назову итоговую сумму до начала работ.
+          Цены указаны «от» — точная стоимость зависит от сложности работ. Позвоню и назову итоговую сумму до начала работ.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {priceGroups.map((group) => (
@@ -516,8 +362,8 @@ function PricePage() {
         </div>
         <p className="mt-8 text-center text-sm text-slate-500">
           Не нашли свою задачу?{' '}
-          <a href="#form" className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
-            Оставьте заявку
+          <a href={PHONE_LINK} className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
+            Позвоните
           </a>{' '}
           — подскажем стоимость.
         </p>
@@ -542,8 +388,8 @@ function AutoPage() {
           Авто-электроника
         </h1>
         <p className="text-slate-600 mb-8 max-w-2xl">
-          Установка и замена авто-электроники: магнитолы, видеорегистраторы, камеры, парктроники, сигнализации, акустика.
-          Стоимость согласовывается в зависимости от марки авто и сложности работ — оставьте заявку, и я назову точную цену.
+          Установка и замена авто-электроники: магнитолы, видеорегистраторы, камеры, парктроники, акустика.
+          Стоимость согласовывается в зависимости от марки авто и сложности работ — позвоните, и я назову точную цену.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {autoTasks.map((task) => (
@@ -565,8 +411,8 @@ function AutoPage() {
         </div>
         <p className="mt-8 text-center text-sm text-slate-500">
           Не нашли свою задачу?{' '}
-          <a href="#form" className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
-            Оставьте заявку
+          <a href={PHONE_LINK} className="text-blue-700 font-semibold no-underline hover:text-blue-800 transition-colors">
+            Позвоните
           </a>{' '}
           — подскажем стоимость.
         </p>
@@ -626,7 +472,7 @@ export default function App() {
           <Tasks />
           <Zones />
           <How />
-          <FormSection />
+          <CallSection />
         </main>
       )}
       <Footer />
