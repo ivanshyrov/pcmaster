@@ -1,4 +1,5 @@
-import { Phone, Monitor, Wind, Cpu, Wifi, MapPin, Building2, Activity, Truck, Wrench, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Phone, Monitor, Wind, Cpu, Wifi, MapPin, Building2, Activity, Truck, Wrench, ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import KineticGrid from './components/ui/kinetic-grid';
 
